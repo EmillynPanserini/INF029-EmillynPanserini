@@ -19,8 +19,7 @@
 #ifndef EstruturaVetores_h
 #define EstruturaVetores_h
 
-enum
-{
+enum {
   TODAS_ESTRUTURAS_AUXILIARES_VAZIAS = -11,
   NOVO_TAMANHO_INVALIDO,
   NUMERO_INEXISTENTE,
@@ -37,28 +36,25 @@ enum
 
 #define TAM 10
 
-typedef struct reg
-{
+typedef struct reg {
   int conteudo;
   struct reg *prox;
 } No;
 
-typedef struct auxStruct
-{
+typedef struct auxStruct {
   int value;
   bool isEmpty;
   struct auxStruct *next;
 } auxStruct;
 
-typedef struct li
-{
+typedef struct li {
   auxStruct *auxStruct;
   int size_max;
   int length;
   bool auxStructExists;
   bool isFull;
   bool isEmpty;
-}li;
+} li;
 
 /// FUNÇÕES BÁSICAS DOS PROGRAMA
 int criarEstruturaAuxiliar(int posicao, int tamanho);
@@ -80,8 +76,8 @@ bool num(int posicao);
 void imprimeAux(int posicao);
 auxStruct *aux(int tam);
 void insereListaOrdenada(int *vet, int tam);
-int vetTam( );
-int liTam( No *init );
-void deleteL (auxStruct ** );
+int vetTam();
+int liTam(No *init);
+void deleteL(auxStruct **);
 
 #endif
