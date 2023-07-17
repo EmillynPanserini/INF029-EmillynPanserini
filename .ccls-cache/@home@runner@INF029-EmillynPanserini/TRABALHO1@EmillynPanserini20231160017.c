@@ -313,7 +313,6 @@ int q6(int numerobase, int numerobusca)
     res= numerobase % 10;
     if(res == numerobusca)
       qtdOcorrencias++;
-    
   }  
     return qtdOcorrencias;
 }
