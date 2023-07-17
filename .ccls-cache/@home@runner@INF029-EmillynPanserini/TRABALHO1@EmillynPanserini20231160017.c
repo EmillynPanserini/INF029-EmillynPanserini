@@ -5,16 +5,11 @@
 //  Disciplina: INF029 - Laboratório de Programação
 //  Professor: Renato Novais - renato@ifba.edu.br
 
-//  ----- Orientações gerais -----
-//  Descrição: esse arquivo deve conter as questões do trabalho do aluno.
-//  Cada aluno deve renomear esse arquivo para Aluno<MATRICULA>.c
-//  O aluno deve preencher seus dados abaixo, e implementar as questões do trabalho
-
 //  ----- Dados do Aluno -----
-//  Nome:
-//  email:
-//  Matrícula:
-//  Semestre:
+//  Nome: Emillyn Souza Panserini
+//  email: emillynpanserini@ifba.edu.br
+//  Matrícula: 20231160017
+//  Semestre: 2023.1
 
 //  Copyright © 2016 Renato Novais. All rights reserved.
 // Última atualização: 07/05/2021 - 19/08/2016
@@ -22,7 +17,7 @@
 // #################################################
 
 #include <stdio.h>
-#include "EmillynPanserini20231160017.h" // Substitua pelo seu arquivo de header renomeado
+#include "EmillynPanserini20231160017.h"
 #include <stdlib.h>
 #include <string.h>
 /*
@@ -71,6 +66,38 @@ int teste(int a)
         val = 4;
 
     return val;
+}
+int DifAno(DataQuebrada dataIni, DataQuebrada dataFin){
+  int difAno;
+  if(dataFin.iAno >= dataIni.iAno){
+    difAno = dataFin.iAno - dataIni.iAno;
+    return difAno;
+  }else
+    return 4;
+}
+
+
+int DifMes(DataQuebrada dataIni, DataQuebrada dataFin){
+  int difMes;
+  if(dataFin.iMes >= dataIni.iMes){
+    int difMes = dataFin.iMes - dataIni.iMes;
+    return difMes;
+  }else{
+    difMes = (12 - (dataIni.iMes - dataFin.iMes)) ;
+    return difMes;
+  } 
+}
+
+
+int DifDia(DataQuebrada dataIni, DataQuebrada dataFin){
+  int difDia;
+  if(dataFin.iDia >= dataIni.iDia){
+    difDia = dataFin.iDia - dataIni.iDia;
+    return difDia;
+  }else{
+    int difDia = (dataIni.iDia - dataFin.iDia);
+    return difDia; // subtrair da quantidade de dias do mes
+  }
 }
 
 
@@ -147,22 +174,21 @@ DataQuebrada quebraData(char data[]){
  */
 int q1(char data[])
 {
-  int datavalida = 1;
-
   //quebrar a string data em strings sDia, sMes, sAno
 
   //DataQuebrada dataQuebrada = quebraData(data);
   //if (dataQuebrada.valido == 0) return 0;
 
   //printf("%s\n", data);
-  scanf("%s", data);
 
-  if ( quebraData(data[]) == datavalida )
+ if(trueData(data)) 
+ { if (sureForm(data)){
+    if(valid(data)){
       return 1;
-  else
-      return 0;
+    }
+  }  }
+  return 0;
 }
-
 
 
 /*
@@ -179,12 +205,21 @@ int q1(char data[])
     4 -> datainicial > datafinal
     Caso o cálculo esteja correto, os atributos qtdDias, qtdMeses e qtdAnos devem ser preenchidos com os valores correspondentes.
  */
+
+// ARRUMAR
 DiasMesesAnos q2(char datainicial[], char datafinal[])
 {
 
     //calcule os dados e armazene nas três variáveis a seguir
     DiasMesesAnos dma;
-
+    DataQuebrada dataIni = quebraData(datainicial);
+    DataQuebrada dataFin =quebraData(datafinal);
+    DiasMesesAnos result;
+    int mes[13] = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    int difAno, difMes, difDia;
+    int leapYear = 0;
+    int conv;
+  
     if (q1(datainicial) == 0){
       dma.retorno = 2;
       return dma;
@@ -192,16 +227,50 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
       dma.retorno = 3;
       return dma;
     }else{
-      //verifique se a data final não é menor que a data inicial
-      
-      //calcule a distancia entre as datas
+      if(dataIni.iAno > dataFin.iAno){
+        dma.retorno = 4;
+        return dma;
+      }
+    if(dataIni.iAno == dataFin.iAno){
+        if(dataIni.iMes > dataFin.iMes)
+          dma.retorno = 4;
+          return dma;
+      }
+      else if(dataIni.iMes == dataFin.iMes){
+        if(dataIni.iDia > dataFin.iDia){
+          dma.retorno = 4;
+        }
+      }
 
+      difAno = DifAno(dataIni, dataFin);
+      difMes = DifMes(dataIni, dataFin);
+      difDia = DifDia(dataIni, dataFin);
 
-      //se tudo der certo
-      dma.retorno = 1;
-      return dma;
-      
+      conv = dataIni.iAno;
+
+      for(int x = 0; x<= (dataFin.iAno - dataIni.iAno) + 1; x++ ){
+        leapYear += LeapYear(dataIni.iAno);
+        dataIni.iAno++;
+      }
+      dataIni.iAno = conv;
+        if(dataIni.iMes > dataFin.iMes)
+          difAno -= 1;
+        if(dataIni.iDia > dataFin.iDia)
+          difMes -= 1;
+        if(dataIni.iDia > dataFin.iDia){
+          if(LeapYear(dataIni.iAno)){
+            difDia = mes[dataIni.iMes] - difDia;
+          }else{
+            difDia = mes[dataIni.iMes] - difDia + leapYear;
+          }
+        }  
+        dma.qtdDias = difDia;
+        dma.qtdMeses = difMes;
+        dma.qtdAnos = difAno;
+        dma.retorno = 1;
+        return dma;
     }
+
     
 }
 
@@ -217,19 +286,16 @@ DiasMesesAnos q2(char datainicial[], char datafinal[])
  */
 int q3(char *texto, char c, int isCaseSensitive)
 {
-    int qtdOcorrencias = -1;
+    int qtdOcorrencias = 0;
 
     if(isCaseSensitive != 1){
       for(int x; texto[x] != '\0'; x++){
-        if(texto[x] == c)
-          qtdOcorrencias++;
-        else if (texto[x] - 32 == c )
-          qtdOcorrencias++;
-        else if(texto[x] + 32 == c)
+        if(texto[x] == c || texto[x] -32 == c || texto[x] +32 == c)
           qtdOcorrencias++;
       }
     }
-    else{
+    else
+        {
         for(int x; texto[x] != '\0'; x++){
           if(texto[x] == c)
             qtdOcorrencias++;
@@ -253,22 +319,22 @@ int q3(char *texto, char c, int isCaseSensitive)
         Observe que o índice da posição no texto deve começar ser contado a partir de 1.
         O retorno da função, n, nesse caso seria 1;
  */
-int q4(char *strTexto, char *strBusca, int posicoes[30])
-{
+
+int q4(char *strTexto, char *strBusca, int posicoes[30]){
+ 
   int qtdOcorrencias = -1;
+  int tam1 =0, tam2 =0;
+  int cont =0, cont2 = 0, cont3 = 0;
+  int ocorrencias = 0;
 
-  //*strTexto = "Ratos de programacao";
- // *strBusca = "Ratos";
-
-  while(*strTexto != '\0'){
-    if(*strTexto == *strBusca)
-     for(int x =0; x<'\0'; x++){
-      // posicoes[x]= x; 
-     }
+  for (int x = 0; strBusca[x] != '\0'; x++){
+    tam1++;
   }
-  
-    return qtdOcorrencias;
+  qtdOcorrencias = palavra(strTexto, strBusca, tam1, tam2, posicoes, 
+  cont, cont2, ocorrencias, cont3);
+  return qtdOcorrencias;
 }
+
 
 /*
  Q5 = inverte número
@@ -280,17 +346,17 @@ int q4(char *strTexto, char *strBusca, int posicoes[30])
     Número invertido
  */
 
-int q5(int num)
-{
+int q5(int num){
+  int v = 0;
    int aux, res;
-    while(num % 10 != 0){
-       res = num % 10;
-       aux=res *10;
-       num += aux;
+
+    do{
+      v *=10;
+      v += num %10;
       num /=10;
     }
-    
-    return num;
+    while(num);
+    return v;
 }
 
 /*
@@ -313,6 +379,106 @@ int q6(int numerobase, int numerobusca)
     res= numerobase % 10;
     if(res == numerobusca)
       qtdOcorrencias++;
+    numerobase /=10;
+
   }  
     return qtdOcorrencias;
+}
+
+int valid(char *stringData){
+  DataQuebrada data = quebraData(stringData);
+ 
+  if(data.iDia<= 31 && data.iMes <= 12)
+  {  
+    if(data.iDia <31 && data.iMes != 2)
+      return 1;
+    else if (data.iDia > 28 && data.iMes == 2){
+      if(LeapYear(data.iAno))
+        return 1;
+    else
+        return 0;
+  } 
+
+  else if (data.iDia > 30 && data.iMes != 1  && data.iMes != 3  && data.iMes != 5 && data.iMes != 7  && data.iMes != 8 && data.iMes != 10 && data.iMes != 12)
+    return 0;
+  else
+    return 1;
+
+  return 0;
+}
+}
+int sureForm(char *data){ 
+  int b =0;
+ for(int x =1; data[x] != '\0'; x++){
+  if (data[x-1] == '/')
+    b++;
+  if(b == 1)
+    if((x-1) != 1 && (x - 1) !=2)
+      return 0;
+    if(data[x-1] != '/' && data[x+2] != '/')
+      return 0;
+
+ if(b > 2)
+   return 0;
+ if(data[x+1] == '\0' && (data[x-2] != '/' && data[x-4] != '/'))
+   return 0;
+
+ }
+  return 1;
+}
+
+int LeapYear (int ano){
+  if(ano % 4 == 0){
+    if(ano % 100 == 0){
+      if(ano % 400 == 0)
+         return 1;
+    }
+  else
+    return 1;
+  }
+  return 0;
+}
+int trueData(char *data){
+  for(int x = 0; data[x] != '\0'; x++){
+    if(!number(data[x]&& data[x] != '/'))
+      return 0;
+  }
+  return 1;
+}
+int number (int character){
+  if(47 <character && character <58)
+    return 1;
+  return 0;
+}
+
+int palavra(char *strTexto, char *strBusca, int tam1, int tam2, int posicoes[30], int cont, int cont2, int ocorrencias, int cont3){
+
+  if(*strTexto == '\0'){
+    return ocorrencias;
+  }
+  if(*strTexto == *strBusca){
+    cont3++;
+    if(tam2 % 2 == 0 || cont == tam1 - 1){
+      posicoes[tam2] = cont2 +1;
+      tam2++;
+    }
+    if (tam2 % 2 == 0 && tam2 != 0){
+      ocorrencias = tam2 /2;
+      cont3 = 0;
+
+      return palavra(strTexto +1 , strBusca + 1, tam1, tam2, posicoes, 
+      cont +1, cont2 +1,  ocorrencias, cont3);
+    }
+      return palavra(strTexto +1 , strBusca + 1, tam1, tam2, 
+      posicoes, cont +1, cont2 +1,  ocorrencias, cont3);}
+    else {
+      if(tam2 % 2 != 0){
+        tam2 -= 1;
+        return palavra(strTexto +1 , strBusca - cont3, tam1, tam2, 
+        posicoes, cont = 0, cont2 +1,  ocorrencias, cont3 );
+      }
+       return palavra(strTexto +1 , strBusca - cont3, tam1, tam2, 
+        posicoes, cont = 0, cont2 +1,  ocorrencias, cont3 = 0);
+    }
+  
 }

@@ -11,10 +11,10 @@
 //  O aluno deve preencher seus dados abaixo, e implementar as questões do trabalho
 
 //  ----- Dados do Aluno -----
-//  Nome:
-//  email:
-//  Matrícula:
-//  Semestre:
+//  Nome: Emillyn Souza Panserini
+//  email: emillyn2003@gmail.com
+//  Matrícula: 20231160017
+//  Semestre: 2023.1
 
 //  Copyright © 2016 Renato Novais. All rights reserved.
 // Última atualização: 07/05/2021
@@ -50,5 +50,17 @@ int q4(char *strTexto, char *strBusca, int posicoes[30]);
 int q5(int num);
 int q6(int numerobase, int numerobusca);
 DataQuebrada quebraData(char data[]);
+
+// funtions for better perform 
+
+int DifAno(DataQuebrada dataIni, DataQuebrada dataFin);
+int DifMes(DataQuebrada dataIni, DataQuebrada dataFin);
+int DifDia(DataQuebrada dataIni, DataQuebrada dataFin);
+int number (int character);
+int sureForm(char *data);
+int valid(char *stringData);
+int trueData(char *data);
+int LeapYear(int ano);
+int palavra(char *strTexto, char *strBusca, int tam1, int tam2, int posicoes[30], int cont, int cont2, int ocorrencias, int cont3);
 
 #endif  // TRABALHO1_PRIMEIROULTIMONOMEMATRICULA_H
